@@ -1,5 +1,12 @@
 import app from './Server/app'
 import connection from './Server/connection'
+
+import {createTeacher} from './Functions/Functions'
+
+app;
+
+app.post("/teacher/new", createTeacher);
+
 import {createClass, createStudent} from './Functions/Functions'
 
 app.post("/estudante", (req, res)=>{
@@ -64,3 +71,4 @@ app.get("/estudante", async (req, res)=>{
         res.status(500).send("An unexpected error occurred")
     }
 })
+

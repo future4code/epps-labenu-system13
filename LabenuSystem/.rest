@@ -1,3 +1,17 @@
+
+POST http://localhost:3003/teacher/new
+Content-Type: application/json
+
+{
+    "name": "Fernandinho Fernando",
+    "email": "fernandinho@fernando.com",
+    "birth_date": "1995-01-01",
+    "specialization": "Testes"
+              
+}
+
+###
+
 POST   http://localhost:3006/turma
 Content-Type: application/json
 

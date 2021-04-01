@@ -13,6 +13,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const app_1 = __importDefault(require("./Server/app"));
+
+const Functions_1 = require("./Functions/Functions");
+app_1.default;
+app_1.default.post("/teacher/new", Functions_1.createTeacher);
+
 const connection_1 = __importDefault(require("./Server/connection"));
 const Functions_1 = require("./Functions/Functions");
 app_1.default.post("/estudante", (req, res) => {
@@ -65,4 +70,5 @@ app_1.default.get("/estudante", (req, res) => __awaiter(void 0, void 0, void 0, 
         res.status(500).send("An unexpected error occurred");
     }
 }));
+
 //# sourceMappingURL=index.js.map
