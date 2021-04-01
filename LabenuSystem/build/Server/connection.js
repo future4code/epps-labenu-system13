@@ -15,7 +15,7 @@ const connection = knex_1.default({
         password: process.env.DB_PASSWORD,
         database: process.env.DB_SCHEMA,
         multipleStatements: true
-    },
+    }
 });
 exports.default = connection;
 //# sourceMappingURL=connection.js.map

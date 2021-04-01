@@ -12,6 +12,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+
 exports.createTeacher = void 0;
 const connection_1 = __importDefault(require("../Server/connection"));
 let createTeacher = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -41,4 +42,48 @@ let createTeacher = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.createTeacher = createTeacher;
+
+exports.createClass = exports.createStudent = void 0;
+const connection_1 = __importDefault(require("../Server/connection"));
+const createStudent = (name, email, birthDate, hobbies, class_id) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield connection_1.default.raw(`
+        INSERT INTO student 
+        (name, email, birth_date, hobbies, class_id) 
+        VALUES (
+            "${name}",
+            "${email}",
+            "${birthDate}",
+            "${hobbies}",
+            ${class_id}
+        );
+    `);
+});
+exports.createStudent = createStudent;
+const createClass = (name, startDate, finishDate, modules) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield connection_1.default.raw(`
+        INSERT INTO class 
+        (name, start_date, finish_date, modules) 
+        VALUES (
+            "${name}",
+            "${startDate}",
+            "${finishDate}",
+            ${modules}
+        );
+    `);
+});
+exports.createClass = createClass;
+const createActor = (id, name, salary, dateOfBirth, gender) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield connection_1.default.raw(`
+        INSERT INTO ACTOR
+        (id, name, salary, birth_date, gender)
+        VALUES(
+            "${id}",
+            "${name}",
+            ${salary},
+            "${dateOfBirth}",
+            "${gender}"
+        );
+    `);
+});
+
 //# sourceMappingURL=Functions.js.map
