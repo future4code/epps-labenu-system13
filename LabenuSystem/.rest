@@ -1,0 +1,30 @@
+POST   http://localhost:3006/turma
+Content-Type: application/json
+
+{
+    "name":"Html e CSS",
+    "start_date":"2021/04/01",
+    "finish_date":"2021/05/01",
+    "modules":1
+}
+
+###
+GET http://localhost:3006/turma
+
+###
+
+POST   http://localhost:3006/estudante
+Content-Type: application/json
+
+{
+    "name":"João do Caminhão",
+    "email":"joao@teste.com",
+    "birth_date":"2021/05/01",
+    "hobbies": "Nadar e dirigir caminhões.",
+    "class_id": 1
+}
+
+###
+GET http://localhost:3006/estudante
+
+###
