@@ -60,6 +60,51 @@ export const getTeacher = async (req: Request, res: Response) =>{
     }
 }
 
+export const insertstudentclass = async (req: Request, res: Response) => {
+    try {
+        if(!req.body.class_id || !req.body.id){
+            throw new Error("Check the fields")
+        }
+
+        const result = await connection.raw(
+        `
+        UPDATE student 
+        SET class_id = ${req.body.class_id}
+        WHERE id = ${req.body.id};
+        `
+        )
+
+        res.status(201).send("Successfully inserted")
+    } catch (error) {
+        res.status(400).send(error)
+    }
+}
+
+export const getAgeById = async (req: Request, res: Response) => {
+    try {
+
+        const result = await connection.raw(
+            `
+            SELECT birth_date FROM student WHERE (id = ${req.params.id});
+            `
+        )
+        console.log(result[0][0].birth_date)
+        let idadeString = (result[0][0].birth_date)
+        console.log("idadeString", typeof idadeString)
+            
+        
+        let ano = (idadeString.getFullYear())
+       
+        console.log(ano)
+        let idade = 2021-Number(ano)
+        console.log("idade", idade)
+        res.status(200).send("idade do Usuário é: " + idade)
+        
+    } catch (error) {
+        res.status(400).send(error)
+    }
+}
+
 
 
 export let createHobbies = async(req: Request, res: Response) =>{

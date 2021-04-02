@@ -1,14 +1,17 @@
 import app from './Server/app'
 import connection from './Server/connection'
 
-import {createTeacher, getTeacher} from './Functions/Functions'
+
+import {createTeacher, getAgeById,createClass, createStudent, insertstudentclass} from './Functions/Functions'
 
 app;
 
 app.post("/teacher/new", createTeacher);
 app.get("/teacher", getTeacher);
 
-import {createClass, createStudent} from './Functions/Functions'
+app.put("/student/insert/", insertstudentclass)
+
+app.get("/student/get/:id", getAgeById)
 
 app.post("/estudante", (req, res)=>{
     const error = 400
@@ -28,7 +31,7 @@ app.post("/estudante", (req, res)=>{
 })
 
 
-app.post("/turma", (req, res)=>{
+app.post("/turma", async (req, res)=>{
     let error = 400
     try {
         if(req.body.modules >7 || req.body.modules <0 || !Number.isInteger(req.body.modules)){

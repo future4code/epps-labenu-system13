@@ -12,7 +12,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+
 exports.getStudentHobbies = exports.linkHobbies = exports.createClass = exports.createStudent = exports.getHobbies = exports.createHobbies = exports.getTeacher = exports.createTeacher = void 0;
+
+
 const connection_1 = __importDefault(require("../Server/connection"));
 var specialization;
 (function (specialization) {
@@ -51,6 +54,7 @@ let createTeacher = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.createTeacher = createTeacher;
+
 const getTeacher = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield connection_1.default.raw(`
@@ -77,11 +81,25 @@ let createHobbies = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             );
             `);
         res.status(201).send("Success");
+
+const insertstudentclass = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        if (!req.body.class_id || !req.body.id) {
+            throw new Error("Check the fields");
+        }
+        const result = yield connection_1.default.raw(`
+        UPDATE student 
+        SET class_id = ${req.body.class_id}
+        WHERE id = ${req.body.id};
+        `);
+        res.status(201).send("Successfully inserted");
+
     }
     catch (error) {
         res.status(400).send(error);
     }
 });
+
 exports.createHobbies = createHobbies;
 let getHobbies = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
@@ -97,6 +115,29 @@ let getHobbies = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
 });
 exports.getHobbies = getHobbies;
 const createStudent = (name, email, birthDate, class_id) => __awaiter(void 0, void 0, void 0, function* () {
+
+exports.insertstudentclass = insertstudentclass;
+const getAgeById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield connection_1.default.raw(`
+            SELECT birth_date FROM student WHERE (id = ${req.params.id});
+            `);
+        console.log(result[0][0].birth_date);
+        let idadeString = (result[0][0].birth_date);
+        console.log("idadeString", typeof idadeString);
+        let ano = (idadeString.getFullYear());
+        console.log(ano);
+        let idade = 2021 - Number(ano);
+        console.log("idade", idade);
+        res.status(200).send("idade do Usuário é: " + idade);
+    }
+    catch (error) {
+        res.status(400).send(error);
+    }
+});
+exports.getAgeById = getAgeById;
+const createStudent = (name, email, birthDate, hobbies, class_id) => __awaiter(void 0, void 0, void 0, function* () {
+
     const result = yield connection_1.default.raw(`
         INSERT INTO student 
         (name, email, birth_date, class_id) 
@@ -153,5 +194,8 @@ let getStudentHobbies = (req, res) => __awaiter(void 0, void 0, void 0, function
         res.status(500).send("An unexpected error occurred");
     }
 });
+
 exports.getStudentHobbies = getStudentHobbies;
+
+
 //# sourceMappingURL=Functions.js.map

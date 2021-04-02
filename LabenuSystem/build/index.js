@@ -17,8 +17,10 @@ const connection_1 = __importDefault(require("./Server/connection"));
 const Functions_1 = require("./Functions/Functions");
 app_1.default;
 app_1.default.post("/teacher/new", Functions_1.createTeacher);
+
 app_1.default.get("/teacher", Functions_1.getTeacher);
 const Functions_2 = require("./Functions/Functions");
+
 app_1.default.post("/estudante", (req, res) => {
     const error = 400;
     try {
@@ -31,7 +33,7 @@ app_1.default.post("/estudante", (req, res) => {
         });
     }
 });
-app_1.default.post("/turma", (req, res) => {
+app_1.default.post("/turma", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let error = 400;
     try {
         if (req.body.modules > 7 || req.body.modules < 0 || !Number.isInteger(req.body.modules)) {
@@ -46,7 +48,7 @@ app_1.default.post("/turma", (req, res) => {
             message: error.message,
         });
     }
-});
+}));
 app_1.default.get("/turma", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield connection_1.default.raw(`
@@ -69,10 +71,12 @@ app_1.default.get("/estudante", (req, res) => __awaiter(void 0, void 0, void 0, 
         res.status(500).send("An unexpected error occurred");
     }
 }));
+
 const Functions_3 = require("./Functions/Functions");
 app_1.default.post("/hobbies", Functions_3.createHobbies);
 app_1.default.get("/hobbies", Functions_3.getHobbies);
 const Functions_4 = require("./Functions/Functions");
 app_1.default.post("/estudante/hobbies", Functions_4.linkHobbies);
 app_1.default.get("/estudante/hobbies", Functions_4.getStudentHobbies);
+
 //# sourceMappingURL=index.js.map
