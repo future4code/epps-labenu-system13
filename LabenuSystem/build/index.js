@@ -13,13 +13,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const app_1 = __importDefault(require("./Server/app"));
-
+const connection_1 = __importDefault(require("./Server/connection"));
 const Functions_1 = require("./Functions/Functions");
 app_1.default;
 app_1.default.post("/teacher/new", Functions_1.createTeacher);
-
-const connection_1 = __importDefault(require("./Server/connection"));
-const Functions_1 = require("./Functions/Functions");
+app_1.default.put("/student/insert/", Functions_1.insertstudentclass);
+app_1.default.get("/student/get/:id", Functions_1.getAgeById);
 app_1.default.post("/estudante", (req, res) => {
     const error = 400;
     try {
@@ -32,7 +31,7 @@ app_1.default.post("/estudante", (req, res) => {
         });
     }
 });
-app_1.default.post("/turma", (req, res) => {
+app_1.default.post("/turma", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     let error = 400;
     try {
         if (req.body.modules > 7 || req.body.modules < 0 || !Number.isInteger(req.body.modules)) {
@@ -47,7 +46,7 @@ app_1.default.post("/turma", (req, res) => {
             message: error.message,
         });
     }
-});
+}));
 app_1.default.get("/turma", (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const result = yield connection_1.default.raw(`
@@ -70,5 +69,4 @@ app_1.default.get("/estudante", (req, res) => __awaiter(void 0, void 0, void 0, 
         res.status(500).send("An unexpected error occurred");
     }
 }));
-
 //# sourceMappingURL=index.js.map
