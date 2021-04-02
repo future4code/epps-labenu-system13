@@ -42,3 +42,16 @@ Content-Type: application/json
 GET http://localhost:3006/estudante
 
 ###
+
+PUT http://localhost:3006/student/insert/2
+Content-Type: application/json
+
+{
+    "id": 1,
+    "class_id": 1
+}
+
+###
+
+GET http://localhost:3006/student/get/1
+Content-Type: application/json
