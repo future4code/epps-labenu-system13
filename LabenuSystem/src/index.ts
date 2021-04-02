@@ -1,11 +1,13 @@
 import app from './Server/app'
 import connection from './Server/connection'
 
+
 import {createTeacher, getAgeById,createClass, createStudent, insertstudentclass} from './Functions/Functions'
 
 app;
 
 app.post("/teacher/new", createTeacher);
+app.get("/teacher", getTeacher);
 
 app.put("/student/insert/", insertstudentclass)
 
@@ -18,8 +20,7 @@ app.post("/estudante", (req, res)=>{
             req.body.name,
             req.body.email,
             req.body.birth_date,
-            req.body.hobbies,
-            req.body.class_id,
+            req.body.class_id
         )
         res.status(200).send("Success!");
     } catch (error) {
@@ -73,4 +74,13 @@ app.get("/estudante", async (req, res)=>{
         res.status(500).send("An unexpected error occurred")
     }
 })
+
+import {createHobbies, getHobbies} from "./Functions/Functions"
+app.post("/hobbies", createHobbies)
+app.get("/hobbies", getHobbies)
+
+import {linkHobbies, getStudentHobbies} from "./Functions/Functions"
+app.post("/estudante/hobbies", linkHobbies)
+app.get("/estudante/hobbies", getStudentHobbies)
+
 

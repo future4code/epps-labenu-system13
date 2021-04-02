@@ -1,5 +1,5 @@
 
-POST http://localhost:3003/teacher/new
+POST http://localhost:3006/teacher/new
 Content-Type: application/json
 
 {
@@ -12,6 +12,10 @@ Content-Type: application/json
 
 ###
 
+get http://localhost:3006/teacher
+
+
+###
 POST   http://localhost:3006/turma
 Content-Type: application/json
 
@@ -34,12 +38,34 @@ Content-Type: application/json
     "name":"João do Caminhão",
     "email":"joao@teste.com",
     "birth_date":"2021/05/01",
-    "hobbies": "Nadar e dirigir caminhões.",
     "class_id": 1
 }
 
 ###
 GET http://localhost:3006/estudante
+
+###
+
+POST http://localhost:3006/hobbies
+Content-Type: application/json
+
+{
+    "id":3,
+    "hobby": "viajar"
+}
+
+###
+
+GET http://localhost:3006/hobbies
+
+
+###
+POST http://localhost:3006/estudante/hobbies
+Content-Type: application/json
+
+{
+    "studentId":1,
+    "hobbyId":1
 
 ###
 
@@ -49,9 +75,16 @@ Content-Type: application/json
 {
     "id": 1,
     "class_id": 1
+
 }
+
+###
+
+ 
+GET http://localhost:3006/estudante/hobbies
 
 ###
 
 GET http://localhost:3006/student/get/1
 Content-Type: application/json
+
