@@ -12,9 +12,18 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-
-exports.createTeacher = void 0;
+exports.getStudentHobbies = exports.linkHobbies = exports.createClass = exports.createStudent = exports.getHobbies = exports.createHobbies = exports.getTeacher = exports.createTeacher = void 0;
 const connection_1 = __importDefault(require("../Server/connection"));
+var specialization;
+(function (specialization) {
+    specialization["React"] = "REACT";
+    specialization["Redux"] = "REDUX";
+    specialization["Css"] = "CSS";
+    specialization["Testes"] = "TESTES";
+    specialization["Typescript"] = "TYPESCRIPT";
+    specialization["POO"] = "Programa\u00E7\u00E3o Orientada a Objetos";
+    specialization["Backend"] = "BACKEND";
+})(specialization || (specialization = {}));
 let createTeacher = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         let classide = 0;
@@ -42,18 +51,59 @@ let createTeacher = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     }
 });
 exports.createTeacher = createTeacher;
-
-exports.createClass = exports.createStudent = void 0;
-const connection_1 = __importDefault(require("../Server/connection"));
-const createStudent = (name, email, birthDate, hobbies, class_id) => __awaiter(void 0, void 0, void 0, function* () {
+const getTeacher = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield connection_1.default.raw(`
+            SELECT * FROM teacher;
+        `);
+        res.status(200).send(result[0]);
+    }
+    catch (error) {
+        console.log(error.message);
+        res.status(500).send("An unexpected error occurred");
+    }
+});
+exports.getTeacher = getTeacher;
+let createHobbies = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        if (!req.body.hobby || !req.body.id) {
+            throw new Error("Check all Fields");
+        }
+        const response = yield connection_1.default.raw(`
+            INSERT INTO hobbies (id, hobby)
+            VALUES(
+                "${req.body.id}",
+                "${req.body.hobby}"
+            );
+            `);
+        res.status(201).send("Success");
+    }
+    catch (error) {
+        res.status(400).send(error);
+    }
+});
+exports.createHobbies = createHobbies;
+let getHobbies = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield connection_1.default.raw(`
+            SELECT * FROM hobbies;
+        `);
+        res.status(200).send(result[0]);
+    }
+    catch (error) {
+        console.log(error.message);
+        res.status(500).send("An unexpected error occurred");
+    }
+});
+exports.getHobbies = getHobbies;
+const createStudent = (name, email, birthDate, class_id) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield connection_1.default.raw(`
         INSERT INTO student 
-        (name, email, birth_date, hobbies, class_id) 
+        (name, email, birth_date, class_id) 
         VALUES (
             "${name}",
             "${email}",
             "${birthDate}",
-            "${hobbies}",
             ${class_id}
         );
     `);
@@ -72,18 +122,36 @@ const createClass = (name, startDate, finishDate, modules) => __awaiter(void 0, 
     `);
 });
 exports.createClass = createClass;
-const createActor = (id, name, salary, dateOfBirth, gender) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield connection_1.default.raw(`
-        INSERT INTO ACTOR
-        (id, name, salary, birth_date, gender)
-        VALUES(
-            "${id}",
-            "${name}",
-            ${salary},
-            "${dateOfBirth}",
-            "${gender}"
-        );
-    `);
+let linkHobbies = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        if (!req.body.hobbyId || !req.body.studentId) {
+            throw new Error("Check all Fields");
+        }
+        const response = yield connection_1.default.raw(`
+            INSERT INTO student_hobbies (student_id, hobby_id)
+            VALUES(
+                ${req.body.studentId},
+                ${req.body.hobbyId}
+            );
+            `);
+        res.status(201).send("Success");
+    }
+    catch (error) {
+        res.status(400).send(error);
+    }
 });
-
+exports.linkHobbies = linkHobbies;
+let getStudentHobbies = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const result = yield connection_1.default.raw(`
+            SELECT * FROM student_hobbies;
+        `);
+        res.status(200).send(result[0]);
+    }
+    catch (error) {
+        console.log(error.message);
+        res.status(500).send("An unexpected error occurred");
+    }
+});
+exports.getStudentHobbies = getStudentHobbies;
 //# sourceMappingURL=Functions.js.map

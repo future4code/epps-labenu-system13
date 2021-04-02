@@ -13,17 +13,16 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const app_1 = __importDefault(require("./Server/app"));
-
+const connection_1 = __importDefault(require("./Server/connection"));
 const Functions_1 = require("./Functions/Functions");
 app_1.default;
 app_1.default.post("/teacher/new", Functions_1.createTeacher);
-
-const connection_1 = __importDefault(require("./Server/connection"));
-const Functions_1 = require("./Functions/Functions");
+app_1.default.get("/teacher", Functions_1.getTeacher);
+const Functions_2 = require("./Functions/Functions");
 app_1.default.post("/estudante", (req, res) => {
     const error = 400;
     try {
-        Functions_1.createStudent(req.body.name, req.body.email, req.body.birth_date, req.body.hobbies, req.body.class_id);
+        Functions_2.createStudent(req.body.name, req.body.email, req.body.birth_date, req.body.class_id);
         res.status(200).send("Success!");
     }
     catch (error) {
@@ -39,7 +38,7 @@ app_1.default.post("/turma", (req, res) => {
             error = 430;
             throw new Error("Modules has to be an integer between 0 and 7");
         }
-        Functions_1.createClass(req.body.name, req.body.start_date, req.body.finish_date, req.body.modules);
+        Functions_2.createClass(req.body.name, req.body.start_date, req.body.finish_date, req.body.modules);
         res.status(200).send("Success!");
     }
     catch (error) {
@@ -70,5 +69,10 @@ app_1.default.get("/estudante", (req, res) => __awaiter(void 0, void 0, void 0, 
         res.status(500).send("An unexpected error occurred");
     }
 }));
-
+const Functions_3 = require("./Functions/Functions");
+app_1.default.post("/hobbies", Functions_3.createHobbies);
+app_1.default.get("/hobbies", Functions_3.getHobbies);
+const Functions_4 = require("./Functions/Functions");
+app_1.default.post("/estudante/hobbies", Functions_4.linkHobbies);
+app_1.default.get("/estudante/hobbies", Functions_4.getStudentHobbies);
 //# sourceMappingURL=index.js.map

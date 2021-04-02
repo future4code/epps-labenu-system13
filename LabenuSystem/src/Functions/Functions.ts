@@ -1,6 +1,17 @@
 
-import { Request, Response } from "express";
+import { request, Request, Response } from "express";
 import connection from "../Server/connection";
+
+
+enum specialization{
+    React="REACT",
+    Redux="REDUX", 
+    Css="CSS", 
+    Testes="TESTES", 
+    Typescript="TYPESCRIPT", 
+    POO="Programação Orientada a Objetos", 
+    Backend="BACKEND"
+}
 
 export let createTeacher = async (req: Request, res: Response) => {
 
@@ -37,18 +48,63 @@ export let createTeacher = async (req: Request, res: Response) => {
 
 
 }
+export const getTeacher = async (req: Request, res: Response) =>{
+    try {
+        const result = await connection.raw(`
+            SELECT * FROM teacher;
+        `)
+        res.status(200).send(result[0])
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send("An unexpected error occurred")      
+    }
+}
 
 
 
-export const createStudent = async (name:string, email:string, birthDate: Date, hobbies:string, class_id: number) =>{
+export let createHobbies = async(req: Request, res: Response) =>{
+    try {
+       
+        if (!req.body.hobby || !req.body.id) {
+            throw new Error("Check all Fields")
+        }
+        const response = await connection.raw(
+            `
+            INSERT INTO hobbies (id, hobby)
+            VALUES(
+                "${req.body.id}",
+                "${req.body.hobby}"
+            );
+            `
+        )
+        res.status(201).send("Success")
+    } catch (error) {
+        res.status(400).send(error)
+    }
+    
+}
+
+export let getHobbies = async (req: Request, res: Response) =>{
+    try {
+        const result = await connection.raw(`
+            SELECT * FROM hobbies;
+        `)
+        res.status(200).send(result[0])
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send("An unexpected error occurred")      
+    }
+}
+
+
+export const createStudent = async (name:string, email:string, birthDate: Date, class_id: number) =>{
     const result = await connection.raw(`
         INSERT INTO student 
-        (name, email, birth_date, hobbies, class_id) 
+        (name, email, birth_date, class_id) 
         VALUES (
             "${name}",
             "${email}",
             "${birthDate}",
-            "${hobbies}",
             ${class_id}
         );
     `)   
@@ -67,16 +123,38 @@ export const createClass = async (name:string, startDate: Date, finishDate: Date
         );
     `)   
 }
-const createActor = async(id: string, name: string, salary: number, dateOfBirth: Date, gender: string): Promise<any> =>{
-    const result = await connection.raw(`
-        INSERT INTO ACTOR
-        (id, name, salary, birth_date, gender)
-        VALUES(
-            "${id}",
-            "${name}",
-            ${salary},
-            "${dateOfBirth}",
-            "${gender}"
-        );
-    `)
- }
+
+
+export let linkHobbies = async(req: Request, res: Response) =>{
+    try {
+       
+        if (!req.body.hobbyId || !req.body.studentId) {
+            throw new Error("Check all Fields")
+        }
+        const response = await connection.raw(
+            `
+            INSERT INTO student_hobbies (student_id, hobby_id)
+            VALUES(
+                ${req.body.studentId},
+                ${req.body.hobbyId}
+            );
+            `
+        )
+        res.status(201).send("Success")
+    } catch (error) {
+        res.status(400).send(error)
+    }
+}
+
+export let getStudentHobbies = async (req: Request, res: Response) =>{
+    try {
+        const result = await connection.raw(`
+            SELECT * FROM student_hobbies;
+        `)
+        res.status(200).send(result[0])
+    } catch (error) {
+        console.log(error.message);
+        res.status(500).send("An unexpected error occurred")      
+    }
+}
+
